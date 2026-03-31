@@ -6,10 +6,9 @@ ConvoMind AI is a modern, responsive, and highly interactive AI chatbot applicat
 
 ## 📸 Screenshots
 
-*(Add your screenshots here! Simply take screenshots of your app, place them in your repository, and update the paths below)*
-
  Main Chat Interface 
- <img src="![Image](image-1.png)" width="400" alt="Main Interface" />
+ <br>
+ <img src="image-1.png" width="800" alt="Main Interface" />
 
 ---
 
