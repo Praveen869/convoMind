@@ -1,6 +1,7 @@
 
 from pathlib import Path
 import os
+import dj_database_url
 from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +23,9 @@ OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY')
 # or overridden by the client UI. Keep this short and safe.
 DEFAULT_BOT_ROLE = os.getenv('DEFAULT_BOT_ROLE', 'You are a helpful and concise assistant.')
 
-ALLOWED_HOSTS = ["*"]
+# Allowed hosts can be a comma-separated list of domains from env variable
+allowed_hosts_env = os.getenv('ALLOWED_HOSTS', '*')
+ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_env.split(',') if host.strip()]
 
 
 # Application definition
@@ -40,6 +43,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -78,6 +82,11 @@ DATABASES = {
     }
 }
 
+# Override with PostgreSQL in production if DATABASE_URL is provided by Render
+database_url = os.getenv('DATABASE_URL')
+if database_url:
+    DATABASES['default'] = dj_database_url.parse(database_url)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -114,6 +123,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Use WhiteNoise to serve and compress static files in production
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

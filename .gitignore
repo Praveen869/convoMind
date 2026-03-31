@@ -18,3 +18,8 @@ __pycache__/
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Production & Generated Files
+staticfiles/
+media/
+*.log
