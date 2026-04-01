@@ -64,25 +64,91 @@
     }
 
     .sidebar-header {
-      padding: 24px 20px;
+      padding: 28px 20px 22px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 4px;
+    }
+
+    .logo-row {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      cursor: default;
+      transition: transform 0.3s ease;
+    }
+    .logo-row:hover {
+      transform: translateY(-2px);
     }
 
-    .sidebar-header i {
-      font-size: 26px;
+    /* Icon with glow ring */
+    .logo-icon-wrap {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #7c3aed22, #a855f733);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      box-shadow: 0 0 14px rgba(168, 85, 247, 0.25);
+      transition: box-shadow 0.3s ease;
+      flex-shrink: 0;
+    }
+    .logo-row:hover .logo-icon-wrap {
+      box-shadow: 0 0 24px rgba(168, 85, 247, 0.5), 0 0 48px rgba(168, 85, 247, 0.15);
+    }
+    .logo-icon-wrap i {
+      font-size: 24px;
       color: var(--accent-purple);
+      animation: iconPulse 3s ease-in-out infinite;
+    }
+    @keyframes iconPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.85; transform: scale(0.95); }
     }
 
+    /* Wordmark */
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
     .sidebar-header h1 {
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: -0.5px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.8px;
+      line-height: 1.1;
+      background: linear-gradient(120deg, #e879f9, #a855f7, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-
-    .sidebar-header h1 span {
-      color: var(--accent-purple);
+    .sidebar-header h1 .ai-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      -webkit-text-fill-color: #fff;
+      color: #fff;
+      letter-spacing: 0.5px;
+      vertical-align: middle;
+      margin-left: 4px;
+      position: relative;
+      top: -2px;
+    }
+    .logo-tagline {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
     }
 
     .sidebar-content {
@@ -107,7 +173,7 @@
 
     .sidebar select, .sidebar textarea {
       width: 100%;
-      background-color: transparent;
+      background-color: var(--bg-sidebar);
       color: var(--text-main);
       border: 1px solid var(--border-color);
       padding: 10px 12px;
@@ -117,6 +183,11 @@
       transition: border-color 0.2s;
       appearance: none;
       -webkit-appearance: none;
+    }
+
+    .sidebar select option {
+      background-color: #1f212a;
+      color: var(--text-main);
     }
     
     .sidebar select {
@@ -128,12 +199,131 @@
 
     .sidebar textarea {
       resize: none;
-      height: 120px;
+      height: 100px;
       line-height: 1.5;
     }
 
     .sidebar select:focus, .sidebar textarea:focus {
       border-color: var(--accent-purple);
+    }
+
+    /* Apply Button */
+    #applyInstructionBtn {
+      width: 100%;
+      margin-top: 8px;
+      padding: 9px 14px;
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 2px 12px rgba(168, 85, 247, 0.25);
+    }
+    #applyInstructionBtn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 18px rgba(168, 85, 247, 0.4);
+    }
+    #applyInstructionBtn:active {
+      transform: translateY(0);
+    }
+    #applyInstructionBtn.applied {
+      background: linear-gradient(135deg, #15803d, #22c55e);
+      box-shadow: 0 2px 12px rgba(34, 197, 94, 0.3);
+    }
+
+    /* Active instruction badge */
+    .instruction-status {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: none;
+      align-items: center;
+      gap: 5px;
+      background: rgba(168, 85, 247, 0.08);
+      border: 1px solid rgba(168, 85, 247, 0.2);
+      border-radius: 5px;
+      padding: 5px 8px;
+      word-break: break-word;
+      line-height: 1.4;
+    }
+    .instruction-status.visible {
+      display: flex;
+    }
+    .instruction-status i {
+      color: var(--accent-purple);
+      flex-shrink: 0;
+      font-size: 13px;
+    }
+    .instruction-status .status-text {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .clear-instruction {
+      cursor: pointer;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      transition: color 0.2s;
+    }
+    .clear-instruction:hover {
+      color: #f87171;
+    }
+
+    /* ── Mode toggle (segmented control) ─────────────── */
+    .mode-toggle {
+      display: flex;
+      margin: 0 20px 16px 20px;
+      background: rgba(0,0,0,0.25);
+      border-radius: 8px;
+      padding: 3px;
+      gap: 3px;
+    }
+    .mode-tab {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 7px 6px;
+      border: none;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-muted);
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.2px;
+    }
+    .mode-tab i { font-size: 13px; }
+    .mode-tab.active {
+      background: var(--bg-sidebar);
+      color: var(--accent-purple);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.35);
+    }
+    .mode-tab.active.tab-custom {
+      color: #4ade80;
+    }
+
+    /* Panel visibility */
+    .mode-panel { display: none; }
+    .mode-panel.active { display: block; }
+
+    /* Dimmed controls inside inactive panel */
+    .mode-panel select:disabled,
+    .mode-panel textarea:disabled,
+    .mode-panel button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
     }
 
     /* --- Main Chat Area --- */
@@ -208,6 +398,83 @@
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Welcome card (shown on first load) */
+    .welcome-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 48px 32px 40px;
+      gap: 14px;
+      animation: fadeIn 0.6s ease-out forwards;
+      opacity: 0;
+      flex: 1;
+    }
+    .welcome-icon-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #7c3aed22, #a855f744);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      box-shadow: 0 0 30px rgba(168, 85, 247, 0.2), 0 0 60px rgba(168, 85, 247, 0.07);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 6px;
+    }
+    .welcome-icon-wrap i {
+      font-size: 30px;
+      color: var(--accent-purple);
+    }
+    .welcome-title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      background: linear-gradient(120deg, #f0abfc, #a855f7, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .welcome-title span {
+      display: block;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.4px;
+      background: linear-gradient(120deg, #c4b5fd, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-top: 2px;
+    }
+    .welcome-sub {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      max-width: 340px;
+      line-height: 1.65;
+      margin-top: 2px;
+    }
+    .welcome-dots {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .welcome-dots span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-purple);
+      opacity: 0.4;
+      animation: dotBounce 1.6s ease-in-out infinite;
+    }
+    .welcome-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .welcome-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes dotBounce {
+      0%, 100% { transform: translateY(0); opacity: 0.4; }
+      50%       { transform: translateY(-5px); opacity: 1; }
     }
 
     /* --- Input Area --- */
@@ -336,25 +603,56 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <i class="ph-fill ph-brain"></i>
-        <h1>ConvoMind <span>AI</span></h1>
+        <div class="logo-row">
+          <div class="logo-icon-wrap">
+            <i class="ph-fill ph-brain"></i>
+          </div>
+          <div class="logo-text">
+            <h1>ConvoMind<span class="ai-badge">AI</span></h1>
+            <span class="logo-tagline">Your intelligent companion</span>
+          </div>
+        </div>
       </div>
       
+      <!-- Segmented mode toggle -->
+      <div class="mode-toggle">
+        <button class="mode-tab tab-persona active" id="tabPersona">
+          <i class="ph-fill ph-user-circle"></i> AI Persona
+        </button>
+        <button class="mode-tab tab-custom" id="tabCustom">
+          <i class="ph-fill ph-lightning"></i> Custom
+        </button>
+      </div>
+
       <div class="sidebar-content">
-        <div class="settings-group">
-          <label for="rolePreset">AI Persona</label>
-          <select id="rolePreset">
-            <option value="">Default Assistant</option>
-            <option value="You are a witty and playful storyteller.">Storyteller</option>
-            <option value="You are a strict, formal professor who answers concisely.">Professor</option>
-            <option value="You are a friendly travel guide with lots of tips and local knowledge.">Travel Guide</option>
-            <option value="You are an expert software engineer architecture consultant.">Software Architect</option>
-          </select>
+        <!-- PANEL 1: AI Persona -->
+        <div class="mode-panel active" id="panelPersona">
+          <div class="settings-group">
+            <label for="rolePreset">AI Persona</label>
+            <select id="rolePreset">
+              <option value="">Default Assistant</option>
+              <option value="You are a witty and playful storyteller.">Storyteller</option>
+              <option value="You are a strict, formal professor who answers concisely.">Professor</option>
+              <option value="You are a friendly travel guide with lots of tips and local knowledge.">Travel Guide</option>
+              <option value="You are an expert software engineer architecture consultant.">Software Architect</option>
+            </select>
+          </div>
         </div>
 
-        <div class="settings-group">
-          <label for="roleInput">Custom Instructions</label>
-          <textarea id="roleInput" placeholder="e.g. Speak like a pirate..."></textarea>
+        <!-- PANEL 2: Custom Instructions -->
+        <div class="mode-panel" id="panelCustom">
+          <div class="settings-group">
+            <label for="roleInput">Custom Instructions</label>
+            <textarea id="roleInput" placeholder="e.g. Speak like a pirate..."></textarea>
+            <button id="applyInstructionBtn" title="Save and activate this instruction">
+              <i class="ph ph-check"></i> Apply
+            </button>
+            <div class="instruction-status" id="instructionStatus">
+              <i class="ph-fill ph-lightning"></i>
+              <span class="status-text" id="instructionStatusText"></span>
+              <i class="ph ph-x clear-instruction" id="clearInstruction" title="Clear instruction"></i>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -363,10 +661,21 @@
     <div class="main-area">
       <!-- Chat Area -->
       <div id="chatbox">
-        <!-- Initial bot message as seen in the mockup -->
-        <div class="message-row ai">
-          <div class="message">
-            <p>Hello! How can I assist you today?</p>
+        <!-- Welcome card -->
+        <div class="welcome-card" id="welcomeCard">
+          <div class="welcome-icon-wrap">
+            <i class="ph-fill ph-brain"></i>
+          </div>
+          <h2 class="welcome-title">
+            Welcome to ConvoMind
+            <span>Your AI-powered conversation partner</span>
+          </h2>
+          <p class="welcome-sub">
+            Ask me anything — I can write, explain, brainstorm, roleplay, and more.
+            Select a persona or write a custom instruction to shape how I respond.
+          </p>
+          <div class="welcome-dots">
+            <span></span><span></span><span></span>
           </div>
         </div>
       </div>
@@ -387,6 +696,105 @@
     const chatbox = document.getElementById("chatbox");
     const input = document.getElementById("msg");
     const sendBtn = document.getElementById("sendBtn");
+    const roleInput = document.getElementById('roleInput');
+    const rolePresetEl = document.getElementById('rolePreset');
+    const applyBtn = document.getElementById('applyInstructionBtn');
+    const instructionStatus = document.getElementById('instructionStatus');
+    const instructionStatusText = document.getElementById('instructionStatusText');
+    const clearInstruction = document.getElementById('clearInstruction');
+    const tabPersona = document.getElementById('tabPersona');
+    const tabCustom = document.getElementById('tabCustom');
+    const panelPersona = document.getElementById('panelPersona');
+    const panelCustom = document.getElementById('panelCustom');
+
+    // ── State ──────────────────────────────────────────────────────────────────
+    let activeMode = 'persona';   // 'persona' | 'custom'
+    let savedInstruction = '';
+
+    // ── Tab switching ──────────────────────────────────────────────────────────
+    function switchToPersona() {
+      activeMode = 'persona';
+      // Tabs
+      tabPersona.classList.add('active');
+      tabCustom.classList.remove('active');
+      // Panels
+      panelPersona.classList.add('active');
+      panelCustom.classList.remove('active');
+      // Clear saved instruction so persona takes over
+      savedInstruction = '';
+    }
+
+    function switchToCustom() {
+      activeMode = 'custom';
+      // Tabs
+      tabCustom.classList.add('active');
+      tabPersona.classList.remove('active');
+      // Panels
+      panelCustom.classList.add('active');
+      panelPersona.classList.remove('active');
+    }
+
+    tabPersona.addEventListener('click', () => {
+      switchToPersona();
+      // Reset custom UI when switching away
+      roleInput.value = '';
+      instructionStatus.classList.remove('visible');
+      instructionStatusText.textContent = '';
+      applyBtn.classList.remove('applied');
+      applyBtn.innerHTML = '<i class="ph ph-check"></i> Apply';
+    });
+
+    tabCustom.addEventListener('click', () => {
+      switchToCustom();
+      // Focus textarea so user can type immediately
+      setTimeout(() => roleInput.focus(), 50);
+    });
+
+    // ── Apply button ───────────────────────────────────────────────────────────
+    applyBtn.addEventListener('click', () => {
+      const val = roleInput.value.trim();
+      if (val) {
+        savedInstruction = val;
+        // Show active badge
+        instructionStatusText.textContent = val;
+        instructionStatus.classList.add('visible');
+        // Flash green
+        applyBtn.classList.add('applied');
+        applyBtn.innerHTML = '<i class="ph ph-check-circle"></i> Applied!';
+        setTimeout(() => {
+          applyBtn.classList.remove('applied');
+          applyBtn.innerHTML = '<i class="ph ph-check"></i> Apply';
+        }, 1800);
+      } else {
+        // Empty → clear and switch back to persona
+        savedInstruction = '';
+        instructionStatus.classList.remove('visible');
+        switchToPersona();
+      }
+    });
+
+    // ── Clear (×) badge ────────────────────────────────────────────────────────
+    clearInstruction.addEventListener('click', () => {
+      savedInstruction = '';
+      roleInput.value = '';
+      instructionStatus.classList.remove('visible');
+      instructionStatusText.textContent = '';
+      applyBtn.classList.remove('applied');
+      applyBtn.innerHTML = '<i class="ph ph-check"></i> Apply';
+      // Switch back to persona tab
+      switchToPersona();
+    });
+
+    // ── Typing in textarea resets Apply button ─────────────────────────────────
+    roleInput.addEventListener('input', () => {
+      applyBtn.classList.remove('applied');
+      applyBtn.innerHTML = '<i class="ph ph-check"></i> Apply';
+      // If user clears the textarea after applying, drop the saved instruction
+      if (!roleInput.value.trim()) savedInstruction = '';
+    });
+
+    // ── Initial state: persona tab active ─────────────────────────────────────
+    switchToPersona();
 
     // Auto-resize textarea
     input.addEventListener('input', function() {
@@ -457,8 +865,12 @@
       if (!msgText) return;
       
       const rolePreset = document.getElementById('rolePreset').value || '';
-      const roleInput = document.getElementById('roleInput').value.trim() || '';
-      const role = roleInput || rolePreset || '';
+      // Use the committed savedInstruction, not the live textarea value
+      const role = savedInstruction || rolePreset || '';
+
+      // Dismiss welcome card on first message
+      const welcomeCard = document.getElementById('welcomeCard');
+      if (welcomeCard) welcomeCard.remove();
 
       // Append user msg
       chatbox.appendChild(createMessage('user', msgText));
