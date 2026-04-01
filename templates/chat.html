@@ -413,6 +413,25 @@
       opacity: 0;
       flex: 1;
     }
+    @media (max-width: 768px) {
+      .welcome-card {
+        padding: 30px 20px;
+        gap: 10px;
+      }
+      .welcome-icon-wrap {
+        width: 50px;
+        height: 50px;
+      }
+      .welcome-icon-wrap i {
+        font-size: 24px;
+      }
+      .welcome-title {
+        font-size: 22px;
+      }
+      .welcome-title span {
+        font-size: 15px;
+      }
+    }
     .welcome-icon-wrap {
       width: 64px;
       height: 64px;
@@ -573,7 +592,7 @@
     @media (max-width: 768px) {
       .app-container {
         width: 100vw;
-        height: 100vh;
+        height: 100dvh; /* Dynamic viewport height for better mobile keyboard handling */
         border-radius: 0;
         border: none;
         flex-direction: column;
@@ -583,15 +602,50 @@
         height: auto;
         border-right: none;
         border-bottom: 1px solid var(--border-color);
+        max-height: 40vh; /* Don't let sidebar take more than 40% height */
+        overflow-y: auto;
+      }
+      .sidebar-header {
+        padding: 15px 20px;
+        flex-direction: row; /* Horizontal on mobile to save height */
+        justify-content: flex-start;
+        border-bottom: none;
+      }
+      .logo-row {
+        gap: 10px;
+      }
+      .logo-icon-wrap {
+        width: 34px;
+        height: 34px;
+      }
+      .logo-icon-wrap i {
+        font-size: 18px;
+      }
+      .sidebar-header h1 {
+        font-size: 16px;
+      }
+      .logo-tagline {
+        display: none; /* Hide tagline on mobile */
+      }
+      .mode-toggle {
+        margin: 0 20px 12px 20px;
       }
       .sidebar-content {
-        display: none; /* simple mobile handling */
+        display: block; /* MUST be visible for Persona/Custom panels to work */
+        padding: 0 20px 15px 20px;
+      }
+      .main-area {
+        flex: 1;
+        min-height: 0; /* Allow the area to shrink */
       }
       .input-container {
-        padding: 0 20px 20px 20px;
+        padding: 10px 15px 15px 15px;
       }
       #chatbox {
-        padding: 20px;
+        padding: 15px;
+      }
+      .message {
+        max-width: 85%; /* Let messages a bit wider on mobile */
       }
     }
   </style>
