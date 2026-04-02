@@ -31,6 +31,31 @@
       font-family: 'Inter', sans-serif;
     }
 
+    .message-row {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message-row.user {
+      align-items: flex-end;
+    }
+
+    .message-row.ai {
+      align-items: flex-start;
+    }
+
+    .message {
+      display: inline-block;
+      max-width: 75%;
+    }
+
+    .time {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 4px;
+      opacity: 0.8;
+    }
+
     body {
       background: var(--bg-viewport);
       display: flex;
@@ -1003,16 +1028,38 @@
     // Create message DOM (No Avatars, clean rectangular bubbles)
     function createMessage(sender, content, isError = false) {
       const row = document.createElement('div');
-      row.className = `message-row ${sender}`;
+      row.className = "message-row " + sender;
 
       const messageDiv = document.createElement('div');
-      messageDiv.className = `message ${isError ? 'error' : ''}`;
+      messageDiv.className = "message " + (isError ? 'error' : '');
 
       const cleanedContent = cleanText(content);
-      const formattedContent = cleanedContent.split('\n').map(p => p.trim() ? `<p>${p}</p>` : '<br>').join('');
+      const formattedContent = cleanedContent
+        .split('\n')
+        .map(function (p) {
+          return p.trim() ? "<p>" + p + "</p>" : "<br>";
+        })
+        .join('');
+
+      // 🕒 Time
+      const time = new Date().toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      // ✅ No template string → no indentation problem
       messageDiv.innerHTML = formattedContent;
 
+      // 🕒 Time element (SEPARATE)
+      const timeDiv = document.createElement('div');
+      timeDiv.className = "time";
+      timeDiv.innerText = new Date().toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
       row.appendChild(messageDiv);
+      row.appendChild(timeDiv);
       return row;
     }
 
