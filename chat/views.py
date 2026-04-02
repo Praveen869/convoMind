@@ -90,7 +90,7 @@ def chatbot(request):
     try:
         # Build request payload so we can inspect it if debugging
         payload = {
-            "model": "openai/gpt-4o-mini",
+            "model": "qwen/qwen3.6-plus:free",
             "messages": [
                 {"role": "system", "content": role_message},
                 {"role": "user", "content": user_message},
